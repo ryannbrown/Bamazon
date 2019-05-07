@@ -26,20 +26,85 @@ connection.connect(function(err) {
 
 function displayProducts() {
     connection.query("SELECT * FROM products", function(err, res) {
+
+        console.log(" \n ------------ CURRENT INVENTORY --------------- \n")
       for (var i = 0; i < res.length; i++) {
-        console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | $" +  res[i].price + " | " + res[i].stock_quantity);
+        console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | $" +  res[i].price + " | " + res[i].stock_quantity + "\n");
       }
       console.log("-----------------------------------");
+      requestOrderId(res)
     });
-    requestOrder()
+    
   }
 
+//asks customer which Id they want to buy
+
+  function requestOrderId(inventory){
+    inquirer
+    .prompt({
+      name: "selectItem",
+      type: "input",
+      message: "Select desired item by ID"
+    })
+    .then(function(answer) {
+        var userChoice = parseInt(answer.choice);
+        var product = checkInventory(userChoice, inventory);
+        
+        if (product) {
+            orderQuantity(product);
+        }
+        else {
+            console.log("Sorry we don't have that in stock")
+            displayProducts();
+        }
+  });
+}
+
+  function orderQuantity(){
+      inquirer
+      .prompt([
+    {
+        name:"desiredQuantity",
+        type:"input",
+        message:"How many do you want of this item?"
+        }
+    ])
+        .then(function(answer) {
+           var quantity = parseInt(answer.quantity);
+
+console.log( "We have this many: " + product.stock_quantity);
+
+           if (product.stock_quantity > quantity) {
+               console.log("Not enough quantity");
+               displayProducts();
+           }
+           else {
+               purchaseItem(product, quantity);
+           
+            }
+          });
+    }   
 
 
-  function requestOrder(){
+function purchaseItem(product, quantity) {
+    connection.query(
+"Update products SET stock_quantity = stock_quantity - ? WHERE item_id =?",
+[quantity, product.item_id],
+function(err, res) {
+console.log("You have purchased" + quantity + product.product_name + "'s");
+loadProducts();
+    }
+);
+}
 
-  }
-
-  function placeOrder(){
-
-  }
+function checkInventory(userChoice, inventory) {
+    for (var i = 0; i < inventory.length; i++) {
+        if (inventory[i].item_id === userChoice) {
+        // If a matching product is found, return the product
+        return inventory[i];
+        }
+    }
+    // Otherwise return null
+    return null;
+    }
+    
