@@ -23,12 +23,14 @@ connection.connect(function(err) {
   displayProducts();
 });
 
+var inventory = 0;
 
 function displayProducts() {
     connection.query("SELECT * FROM products", function(err, res) {
 
         console.log(" \n ------------ CURRENT INVENTORY --------------- \n")
       for (var i = 0; i < res.length; i++) {
+          inventory++;
         console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | $" +  res[i].price + " | " + res[i].stock_quantity + "\n");
       }
       console.log("-----------------------------------");
@@ -41,24 +43,41 @@ function displayProducts() {
 
   function requestOrderId(inventory){
     inquirer
-    .prompt({
+    .prompt([
+        {
       name: "selectItem",
       type: "input",
       message: "Select desired item by ID"
-    })
-    .then(function(answer) {
-        var userChoice = parseInt(answer.choice);
-        var product = checkInventory(userChoice, inventory);
-        
+        }
+    ])
+    .then(function(res) {
+        var userChoice = parseInt(res.choice);
+        var product = checkInventory(userChoice, inventory); 
         if (product) {
-            orderQuantity(product);
+            orderQuantity();
         }
         else {
             console.log("Sorry we don't have that in stock")
             displayProducts();
         }
+   
   });
 }
+
+
+function checkInventory(userChoice, inventory) {
+    for (var i = 0; i < inventory.length; i++) {
+        if (inventory.item_id === userChoice) {
+        // If a matching product is found, return the product
+        return inventory[i];
+        }
+    }
+    // Otherwise return null
+    return null;
+    }
+    
+
+
 
   function orderQuantity(){
       inquirer
@@ -97,14 +116,3 @@ loadProducts();
 );
 }
 
-function checkInventory(userChoice, inventory) {
-    for (var i = 0; i < inventory.length; i++) {
-        if (inventory[i].item_id === userChoice) {
-        // If a matching product is found, return the product
-        return inventory[i];
-        }
-    }
-    // Otherwise return null
-    return null;
-    }
-    
