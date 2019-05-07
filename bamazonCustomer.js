@@ -51,10 +51,14 @@ function displayProducts() {
         }
     ])
     .then(function(res) {
-        var userChoice = parseInt(res.choice);
+        // console.log(res, 'res')
+        var userChoice = parseInt(res.selectItem);
+        console.log(userChoice);
+        
         var product = checkInventory(userChoice, inventory); 
         if (product) {
-            orderQuantity();
+            // console.log(res[i].product_name)
+            orderQuantity(product);
         }
         else {
             console.log("Sorry we don't have that in stock")
@@ -66,8 +70,9 @@ function displayProducts() {
 
 
 function checkInventory(userChoice, inventory) {
+    // console.log(inventory);
     for (var i = 0; i < inventory.length; i++) {
-        if (inventory.item_id === userChoice) {
+        if (inventory[i].id === userChoice) {
         // If a matching product is found, return the product
         return inventory[i];
         }
@@ -79,7 +84,7 @@ function checkInventory(userChoice, inventory) {
 
 
 
-  function orderQuantity(){
+  function orderQuantity(product){
       inquirer
       .prompt([
     {
@@ -89,30 +94,32 @@ function checkInventory(userChoice, inventory) {
         }
     ])
         .then(function(answer) {
-           var quantity = parseInt(answer.quantity);
+            // console.log(answer, "answer");
+            // console.log( "We have this many: " + product.stock_quantity);
+           var quantity = parseInt(answer.desiredQuantity);
+console.log(quantity);
 
-console.log( "We have this many: " + product.stock_quantity);
-
-           if (product.stock_quantity > quantity) {
+           if (quantity > product.stock_quantity) {
                console.log("Not enough quantity");
                displayProducts();
            }
            else {
                purchaseItem(product, quantity);
            
-            }
-          });
-    }   
+        };
+    })
+          }
 
 
 function purchaseItem(product, quantity) {
     connection.query(
-"Update products SET stock_quantity = stock_quantity - ? WHERE item_id =?",
-[quantity, product.item_id],
+"Update products SET stock_quantity = stock_quantity - ? WHERE id =?",
+[quantity, product.id],
 function(err, res) {
-console.log("You have purchased" + quantity + product.product_name + "'s");
-loadProducts();
+    console.log("---------------------------------- \n")
+console.log("You have successfully purchased " + quantity + " " + product.product_name + "!");
+console.log("Your total cost was: $" + quantity * product.price)
+displayProducts();
     }
 );
 }
-
