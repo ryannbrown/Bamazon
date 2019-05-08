@@ -1,3 +1,4 @@
+// bringing in necessary packages 
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
@@ -5,13 +6,13 @@ var inquirer = require("inquirer");
 var connection = mysql.createConnection({
   host: "localhost",
 
-  // Your port; if not 3306
+  // my port #
   port: 3306,
 
-  // Your username
+  // username
   user: "root",
 
-  // Your password
+  // password
   password: "Soccer2121!",
   database: "bamazon"
 });
@@ -39,7 +40,7 @@ function displayProducts() {
     
   }
 
-//asks customer which Id they want to buy
+//Customer chooses ID to buy
 
   function requestOrderId(inventory){
     inquirer
@@ -68,7 +69,7 @@ function displayProducts() {
   });
 }
 
-
+// system checks the inventory to make sure item is in stock
 function checkInventory(userChoice, inventory) {
     // console.log(inventory);
     for (var i = 0; i < inventory.length; i++) {
@@ -82,7 +83,7 @@ function checkInventory(userChoice, inventory) {
     }
     
 
-
+//This function takes in the quantity of items customer intends to buy
 
   function orderQuantity(product){
       inquirer
@@ -110,7 +111,8 @@ console.log(quantity);
     })
           }
 
-
+//this function actually purchases the item which will deduct quantity from inventory and console log the amount
+//of money spent
 function purchaseItem(product, quantity) {
     connection.query(
 "Update products SET stock_quantity = stock_quantity - ? WHERE id =?",
