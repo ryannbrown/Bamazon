@@ -48,9 +48,21 @@ Insert the ID of which product you want to buy and you will see the quanity chan
 
 The inventory will pop back up and you can continue shopping! 
 
+## Example of quantity change
+Here I will show how the quantity changes when purchasing something.
+You can see we have 30 Christmas Sweaters in our inventory.
+
+![image](https://user-images.githubusercontent.com/44414542/59153775-84a54e00-8a30-11e9-80c9-0f7ac6dea87e.png)
+
+Now we will buy 10 of the Christmas Sweaters
 
 
-![image](https://user-images.githubusercontent.com/44414542/57340341-3a644080-7103-11e9-9c96-6ca6cc281c8d.png)
+![image](https://user-images.githubusercontent.com/44414542/59153782-a56da380-8a30-11e9-8a8e-cdb472f587ab.png)
+
+You will see that our new inventory reflects the change from 30 to 20 left!
+
+![image](https://user-images.githubusercontent.com/44414542/59153795-d3eb7e80-8a30-11e9-9a9e-a784970d3cc5.png)
+
 
 (currently all items are back-ordered ;) 
 
