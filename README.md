@@ -64,6 +64,18 @@ You will see that our new inventory reflects the change from 30 to 20 left!
 ![image](https://user-images.githubusercontent.com/44414542/59153795-d3eb7e80-8a30-11e9-9a9e-a784970d3cc5.png)
 
 
+## Example of not enough inventory
+
+In this case we attempt to buy Lavender Essential Oils in bulk. We try to buy 20, but there are only 15 in stock.
+![image](https://user-images.githubusercontent.com/44414542/59153809-2af15380-8a31-11e9-83f5-76aba13887b0.png)
+
+
+Because there is not enough quantity, Bamazon lets us know that there is "not enough quantity"
+![image](https://user-images.githubusercontent.com/44414542/59153815-3e042380-8a31-11e9-9962-0b9fb14e9331.png)
+
+
+
+
 (currently all items are back-ordered ;) 
 
 ## Thank you! 
